@@ -23,7 +23,7 @@ function App() {
   };
 
   const openDetail = (id) => {
-    axios.get(`http://www.omdbapi.com/?i=${id}&apikey=c0ea56ad`)
+    axios.get(`https://www.omdbapi.com/?i=${id}&apikey=c0ea56ad`)
     .then(({data}) => {
         setState(prevState => {
           return { ...prevState, selected: data };
@@ -34,7 +34,7 @@ function App() {
 
   const searchResult = (event) => {
     event.preventDefault();
-    axios.get(`http://www.omdbapi.com/?i=tt3896198&apikey=c0ea56ad&s=${state.search}`)
+    axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=c0ea56ad&s=${state.search}`)
       .then(res => {
         if (res.data.Search) {
           setState(prevState => {
