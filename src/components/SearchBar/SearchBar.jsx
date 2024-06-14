@@ -5,7 +5,7 @@ const SearchBar = ({handleInput, searchResult, state}) => {
   return (
     <div className="container mx-auto flex justify-center items-center">
         <form onSubmit={searchResult} className="w-[500px] relative mt-5">
-            <div className="relative">
+            <div className="relative mr-6 ml-6">
                 <input 
                     type="search" 
                     placeholder="movie" 
