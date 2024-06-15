@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../Header/Header.css';
+import defaultImage from './default-image.png';
 
 const Details = ({ selected, closeDetail }) => {
   const [tmdbId, setTmdbId] = useState(null);
@@ -50,17 +52,18 @@ const Details = ({ selected, closeDetail }) => {
     ));
   };
 
+  const imageUrl = selected.Poster !== 'N/A' ? selected.Poster : defaultImage;
   return (
     <main className="flex-grow">
       <div className="container mx-auto flex-grow relative">
         <div className="md:flex">
           <div className="w-full md:w-1/2 p-4">
-            <img src={selected.Poster} alt={selected.Title} className="w-full h-auto" />
+            <img src={imageUrl} alt={selected.Title} className="w-full h-auto" />
           </div>
           <div className="w-full md:w-1/2 p-4 flex flex-col">
             <div className="flex items-start justify-between">
               <h2 className="text-3xl font-bold md:mr-4">{selected.Title}</h2>
-              <button className="bg-black text-white rounded py-2 px-4" onClick={closeDetail}>Back</button>
+              <button className="bg-black text-white rounded py-2 px-4 shadow-custom" onClick={closeDetail}>Back</button>
             </div>
             <p className="py-1">{selected.Year}</p>
             <p className="py-1">Rating: {selected.imdbRating}</p>
