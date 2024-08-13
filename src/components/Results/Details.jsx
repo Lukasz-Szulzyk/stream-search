@@ -6,6 +6,7 @@ import defaultImage from './default-image.png';
 const Details = ({ selected, closeDetail }) => {
   const [tmdbId, setTmdbId] = useState(null);
   const [streamings, setStreamings] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState('PL'); // Dodany stan kraju
 
   useEffect(() => {
     const findTMDBID = async (imdbid) => {
@@ -27,8 +28,8 @@ const Details = ({ selected, closeDetail }) => {
       const findStreamings = async (id) => {
         try {
           const { data } = await axios.get(`https://api.themoviedb.org/3/movie/${id}/watch/providers?api_key=8544c4e0afc888ec3e7cac58360de05b`);
-          if (data.results && data.results.PL) {
-            setStreamings(data.results.PL);
+          if (data.results && data.results[selectedCountry]) {
+            setStreamings(data.results[selectedCountry]);
           } else {
             setStreamings([]);
           }
@@ -38,7 +39,7 @@ const Details = ({ selected, closeDetail }) => {
       };
       findStreamings(tmdbId);
     }
-  }, [tmdbId]);
+  }, [tmdbId, selectedCountry]); // Dodanie selectedCountry jako zależności
 
   const renderProviders = (providers) => {
     if (!providers || providers.length === 0) {
@@ -69,11 +70,24 @@ const Details = ({ selected, closeDetail }) => {
             <p className="py-1">Rating: {selected.imdbRating}</p>
             <p className="py-1">{selected.Plot}</p>
 
+            <p className="w-full mt-5">Select country:</p>
+            <select
+              className="mb-4 p-2 border rounded"
+              value={selectedCountry}
+              onChange={(e) => setSelectedCountry(e.target.value)}
+            >
+              <option value="PL">Poland</option>
+              <option value="US">United States</option>
+              <option value="GB">United Kingdom</option>
+              <option value="DE">Germany</option>
+              <option value="FR">France</option>
+            </select>
+
             {streamings === null || streamings.length === 0 ? (
-              <p className="w-full mt-5">No streaming options available</p>
+              <p className="w-full mt-5">No streaming options available for {selectedCountry}</p>
             ) : (
               <div className="w-full mt-5">
-                <h2 className="mt-4 text-xl font-bold">Streaming search results for Poland:</h2>
+                <h2 className="mt-4 text-xl font-bold">Streaming search results for {selectedCountry}:</h2>
                 <h3 className="mt-4 text-lg font-semibold">Subscription</h3>
                 <div className="flex flex-wrap justify-start">
                   {renderProviders(streamings.flatrate)}
